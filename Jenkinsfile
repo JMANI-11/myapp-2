@@ -1,6 +1,7 @@
 pipeline {
   agent any
 
+  
   environment {
     DOCKER_IMAGE = "jmanishankar/jenkins-argocd-automatic-nginx-app"
     TAG = "${BUILD_NUMBER}"
