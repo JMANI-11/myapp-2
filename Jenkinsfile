@@ -4,7 +4,7 @@ pipeline {
   environment {
     DOCKER_IMAGE = "jmanishankar/argocd-nginx-app"
     TAG = "${BUILD_NUMBER}"
-    MANIFEST_REPO = "https://github.com/JMANI-11/k8s-manifests.git"
+    MANIFEST_REPO = "https://github.com/JMANI-11/k8s-manifests-2.git"
   }
   
   stages {
@@ -33,11 +33,11 @@ pipeline {
         )]) {
 
           sh '''
-          rm -rf k8s-manifests
+          rm -rf k8s-manifests-2
 
-          git clone https://$GIT_USER:$GIT_PASS@github.com/JMANI-11/k8s-manifests.git
+          git clone https://$GIT_USER:$GIT_PASS@github.com/JMANI-11/k8s-manifests-2.git
 
-          cd k8s-manifests
+          cd k8s-manifests-2
 
           sed -i "s|image:.*|image: $DOCKER_IMAGE:$TAG|g" deployment.yaml
 
