@@ -4,16 +4,9 @@ pipeline {
   environment {
     DOCKER_IMAGE = "jmanishankar/jenkins-argocd-automatic-nginx-app"
     TAG = "${BUILD_NUMBER}"
-    MANIFEST_REPO = "https://github.com/JMANI-11/k8s-manifests-2.git"
   }
 
   stages {
-
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t $DOCKER_IMAGE:$TAG .'
-      }
-    }
 
     stage('Login to DockerHub') {
       steps {
@@ -24,6 +17,12 @@ pipeline {
         )]) {
           sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
         }
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t $DOCKER_IMAGE:$TAG .'
       }
     }
 
@@ -43,13 +42,10 @@ pipeline {
 
           sh '''
           rm -rf k8s-manifests-2
-
           git clone https://$GIT_USER:$GIT_PASS@github.com/JMANI-11/k8s-manifests-2.git
-
           cd k8s-manifests-2
 
-          # Update ONLY nginx container image
-          sed -i "s|image: jmanishankar/jenkins-argocd-automatic-nginx-app:.*|image: $DOCKER_IMAGE:$TAG|g" deployment.yaml
+          sed -i "s|image:.*|image: $DOCKER_IMAGE:$TAG|g" deployment.yaml
 
           git config user.email "jakkampudimani18@gmail.com"
           git config user.name "JMANI-11"
