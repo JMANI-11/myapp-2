@@ -1,6 +1,5 @@
 pipeline {
   agent any
-
   
   environment {
     DOCKER_IMAGE = "jmanishankar/argocd-nginx-app"
