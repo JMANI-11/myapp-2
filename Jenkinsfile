@@ -4,7 +4,7 @@ pipeline {
   
   environment {
     DOCKER_IMAGE = "jmanishankar/argocd-nginx-app"
-    TAG = "${JOB_NAME}"
+    TAG = "${NODE_NAME}"
     MANIFEST_REPO = "https://github.com/JMANI-11/k8s-manifests-2.git"
   }
   
